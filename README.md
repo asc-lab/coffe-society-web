@@ -47,5 +47,5 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ```
 build.sh
-docker run --rm -p 80:80 coffee-society-web
+docker run --rm -p 80:80 csms/coffee-society-web
 ```
