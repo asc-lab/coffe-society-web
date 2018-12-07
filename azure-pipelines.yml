@@ -1,0 +1,18 @@
+pool:
+  vmImage: 'Ubuntu 16.04'
+
+variables:
+  app: 'coffee-society-web'
+
+steps:
+- script: docker login -u $(dockerId) -p $(dockerPass)
+  displayName: "docker login"
+- script: ./build.sh
+  workingDirectory: $(app)
+  displayName: 'docker build $(app)'
+- script: docker tag $(dockerNamespace)/$(app) $(dockerNamespace)/$(app):$(build.buildId)
+  displayName: 'docker tag $(dockerNamespace)/$(app):$(build.buildId)'
+- script: docker push $(dockerNamespace)/$(app):$(build.buildId)
+  displayName: 'docker push $(dockerNamespace)/$(app):$(build.buildId)'
+- script: docker push $(dockerNamespace)/$(app):latest
+  displayName: 'docker push $(dockerNamespace)/$(app):latest'
