@@ -1,3 +1,6 @@
+# CoffeeSociety Frontend Service
+[![Build Status](https://travis-ci.org/asc-lab/coffee-society-web.svg?branch=master)](https://travis-ci.org/asc-lab/coffee-society-web)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -46,6 +49,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ## Run in container
 
 ```
-build.sh
+make
 docker run --rm -p 80:80 csms/coffee-society-web
 ```
