@@ -1,62 +1,86 @@
 import React, {Component} from 'react';
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import Radio from "@material-ui/core/Radio";
+import PropTypes from "prop-types";
+import {withStyles} from "@material-ui/core";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import {users} from "../common/ApiUtils";
+
+const styles = theme => ({
+    root: {
+        display: 'flex',
+    },
+    formControl: {
+        margin: theme.spacing.unit * 3,
+    },
+    group: {
+        margin: `${theme.spacing.unit}px 0`,
+    },
+});
 
 class UsersList extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            users: []
+            members: [],
+            value: ''
         };
         this.getUsers = this.getUsers.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     getUsers() {
-        const headers = new Headers({
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': 'Bearer' + localStorage.getItem("access_token")
+        users().then(res => {
+            let users = [];
+            res.forEach(x => {
+                users.push({
+                    value: x.username,
+                    label: x.username
+                })
+            });
+            this.setState({
+                members: users
+            });
         });
-
-        fetch("http://localhost:9001/api/users",
-            {
-                method: "GET",
-                headers: headers
-            }).then(response =>
-            response.json().then(json => {
-                if (response.ok) {
-                    return json;
-                } else {
-                    return Promise.reject(json);
-                }
-            }).then(res => {
-                let users = [];
-                res.forEach(x => {
-                    users.push({
-                        username: x.username,
-                    })
-                });
-                this.setState({
-                    users: users
-                });
-            })
-        );
     }
+
+    handleChange = event => {
+        this.setState({value: event.target.value});
+        this.props.onSelectionChange(event.target.value);
+    };
 
     componentWillMount() {
         this.getUsers();
     }
 
-
     render() {
-        let {users} = this.state;
-        const listItems = users.map((d) => <li key={d.username}>{d.username}</li>);
+        const {members} = this.state;
+        const radios = members.map(x =>
+            <FormControlLabel key={x.value} value={x.value} control={<Radio/>} label={x.label}/>);
+        const {classes} = this.props;
 
         return (
-            <div>
-                {listItems}
-            </div>
-
+            <FormControl id="users" component="fieldset" className={classes.formControl}>
+                <FormLabel component="legend">Users</FormLabel>
+                <RadioGroup
+                    aria-label='Users'
+                    name='Users'
+                    className={classes.group}
+                    value={this.state.value}
+                    onChange={this.handleChange}>
+                    {radios}
+                </RadioGroup>
+            </FormControl>
         );
     }
 }
 
-export default UsersList;
+
+UsersList.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(UsersList);
