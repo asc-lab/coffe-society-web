@@ -1,4 +1,6 @@
 import jwt_decode from "jwt-decode";
+import {history} from '../common/History'
+import {userConstants} from '../constants';
 
 const ACCESS_TOKEN = "access_token";
 export const login = (data) => dispatch => {
@@ -11,9 +13,10 @@ export const login = (data) => dispatch => {
             name: tokenData.user_name
         };
         dispatch({
-            type: 'LOGIN',
+            type: userConstants.LOGIN_SUCCESS,
             payload: userData
         });
+        history.push('/production');
     }).catch(error => {
         console.log(error);
     });

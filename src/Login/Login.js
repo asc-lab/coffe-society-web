@@ -70,7 +70,7 @@ class Login extends Component {
                                    onChange={this.onChangeName}
                                    value={this.state.name} required/>
                         <TextField type="password" fullWidth name="password" placeholder="Password"
-                                   onChange={this.onChangeName}
+                                   onChange={this.onChangePassword}
                                    value={this.state.password} required/>
                         <FormButton type="submit">Log in</FormButton>
                     </form>

@@ -1,3 +1,5 @@
+import {userConstants} from '../constants';
+
 const initialState = {
     loginDetails: {
         name: '',
@@ -7,10 +9,10 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case 'LOGIN':
+        case userConstants.LOGIN_SUCCESS:
             return {
                 ...state,
-                loginDetails: action.payload
+                loginDetails: action.payload,
             };
         default:
             return state;
