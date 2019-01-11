@@ -5,6 +5,9 @@ import ProductDefinition from "../components/ProductDefinition";
 import Button from "@material-ui/core/es/Button/Button";
 import Grid from "@material-ui/core/Grid";
 import ProductionTable from "../components/ProductionTable";
+import {register} from "../common/ApiUtils";
+import uuid from "uuid";
+import AppAppBar from "../theme/modules/views/AppAppBar";
 
 
 const styles = theme => ({
@@ -39,12 +42,19 @@ class Production extends Component {
 
     onClick = () => {
 
-        let row = {
-            id: this.state.selectedUser,
-            memberName: this.state.selectedUser,
+        const row = {
+            id: uuid(),
+            memberName: this.state.selectedUser.label,
             productName: this.state.selectedProductDefinition.label
         };
-
+        const registerData = {
+            id: uuid(),
+            productDefId: this.state.selectedProductDefinition.value,
+            productReceiverId: this.state.selectedUser.value,
+            productName: this.state.selectedProductDefinition.label,
+            productExecutorId: ""
+        };
+        register(registerData).catch(error => console.log('ERROR'));
         this.setState({
             rows: [...this.state.rows, row]
         });
@@ -54,18 +64,21 @@ class Production extends Component {
     render() {
         let {rows} = this.state;
         return (
-            <Grid container>
-                <Grid item xs={4}>
-                    <ProductDefinition onSelectionChange={(value) => this.onSelectedProductChanged(value)}/>
+            <div>
+                <AppAppBar/>
+                <Grid container>
+                    <Grid item xs={4}>
+                        <ProductDefinition onSelectionChange={(value) => this.onSelectedProductChanged(value)}/>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <UsersList onSelectionChange={(value) => this.onSelectedUserChanged(value)}/>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Button onClick={this.onClick}>OK</Button>
+                    </Grid>
+                    <ProductionTable rows={rows}/>
                 </Grid>
-                <Grid item xs={4}>
-                    <UsersList onSelectionChange={(value) => this.onSelectedUserChanged(value)}/>
-                </Grid>
-                <Grid item xs={2}>
-                    <Button onClick={this.onClick}>OK</Button>
-                </Grid>
-                <ProductionTable rows={rows}/>
-            </Grid>
+            </div>
         );
     }
 }

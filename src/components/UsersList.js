@@ -37,7 +37,7 @@ class UsersList extends Component {
             let users = [];
             res.forEach(x => {
                 users.push({
-                    value: x.username,
+                    value: x.id,
                     label: x.username
                 })
             });
@@ -49,7 +49,7 @@ class UsersList extends Component {
 
     handleChange = event => {
         this.setState({value: event.target.value});
-        this.props.onSelectionChange(event.target.value);
+        this.props.onSelectionChange(this.state.members.filter(x => x.value === event.target.value)[0]);
     };
 
     componentWillMount() {

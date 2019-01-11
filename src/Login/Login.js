@@ -10,6 +10,7 @@ import {connect} from "react-redux";
 import {login} from "../actions/LoginAction";
 import FormButton from "../theme/modules/form/FormButton";
 import TextField from "../theme/modules/components/TextField";
+import Grid from "@material-ui/core/Grid";
 
 const styles = theme => ({
     form: {
@@ -66,13 +67,21 @@ class Login extends Component {
                         </Typography>
                     </React.Fragment>
                     <form className={classes.form} onSubmit={this.onSubmit}>
-                        <TextField type="text" fullWidth name="name" placeholder="Username"
-                                   onChange={this.onChangeName}
-                                   value={this.state.name} required/>
-                        <TextField type="password" fullWidth name="password" placeholder="Password"
-                                   onChange={this.onChangePassword}
-                                   value={this.state.password} required/>
-                        <FormButton type="submit">Log in</FormButton>
+                        <Grid justify={'center'} container>
+                            <Grid item lg={12} xs={12}>
+                                <TextField type="text" fullWidth name="name" placeholder="Username"
+                                           onChange={this.onChangeName}
+                                           value={this.state.name} required/>
+                            </Grid>
+                            <Grid item lg={12} xs={12}>
+                                <TextField type="password" fullWidth name="password" placeholder="Password"
+                                           onChange={this.onChangePassword}
+                                           value={this.state.password} required/>
+                            </Grid>
+                            <Grid item lg={12} xs={12} style={{justifyContent: 'center!important'}}>
+                                <FormButton type="submit">Log in</FormButton>
+                            </Grid>
+                        </Grid>
                     </form>
                 </AppForm>
             </React.Fragment>

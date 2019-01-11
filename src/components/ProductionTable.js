@@ -21,6 +21,7 @@ const styles = theme => ({
 
 
 class SimpleTable extends Component {
+
     render() {
         const {classes} = this.props;
         const {rows} = this.props;

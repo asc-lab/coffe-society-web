@@ -3,11 +3,13 @@ import React from 'react';
 import Login from "../Login/Login";
 import {history} from "./History";
 import Production from "../Production/Production";
+import Home from "../home/Home";
 
 export default () => (
     <Router history={history}>
         <div>
             <Route path={"/"} exact component={Login}/>
+            <PrivateRoute path={"/home"} exact component={Home}/>
             <PrivateRoute path={"/production"} exact component={Production}/>
         </div>
     </Router>

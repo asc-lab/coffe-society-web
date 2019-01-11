@@ -1,4 +1,4 @@
-import {API_BASE_URL, ACCESS_TOKEN} from '../constants/ApiConstants';
+import {ACCESS_TOKEN, API_BASE_URL} from '../constants/ApiConstants';
 
 const request = (options) => {
     const headers = new Headers({
@@ -35,5 +35,20 @@ export function definitions() {
     return request({
         url: API_BASE_URL + "9002/api/definitions",
         method: 'GET'
+    });
+}
+
+export function register(data) {
+    return request({
+        url: API_BASE_URL + "9005/api/product/register",
+        method: 'POST',
+        body: JSON.stringify(data)
+    });
+}
+
+export function products() {
+    return request({
+        url: API_BASE_URL + "9005/api/search/products",
+        method: 'GET',
     });
 }
