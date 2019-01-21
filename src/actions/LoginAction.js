@@ -1,7 +1,6 @@
 import jwt_decode from "jwt-decode";
 import {history} from '../common/History'
 import {userConstants} from '../constants';
-import {API_BASE_URL} from "../constants/ApiConstants";
 
 const ACCESS_TOKEN = "access_token";
 export const login = (data) => dispatch => {
@@ -29,7 +28,7 @@ export function loginRequest(data) {
         'Authorization': 'Basic ' + btoa('client:secret')
     });
 
-    return fetch(API_BASE_URL + "9001/oauth/token?grant_type=password&username=" + data.username +
+    return fetch("/oauth/token?grant_type=password&username=" + data.username +
         "&password=" + data.password, {
         method: "POST",
         headers: headers

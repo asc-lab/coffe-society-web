@@ -1,4 +1,4 @@
-import {ACCESS_TOKEN, API_BASE_URL} from '../constants/ApiConstants';
+import {ACCESS_TOKEN} from '../constants/ApiConstants';
 
 const request = (options) => {
     const headers = new Headers({
@@ -26,21 +26,21 @@ const request = (options) => {
 
 export function users() {
     return request({
-        url: API_BASE_URL + "9001/api/users",
+        url: "/api/members/users",
         method: 'GET'
     });
 }
 
 export function definitions() {
     return request({
-        url: API_BASE_URL + "9002/api/definitions",
+        url: "/api/product-catalog/definitions",
         method: 'GET'
     });
 }
 
 export function register(data) {
     return request({
-        url: API_BASE_URL + "9005/api/product/register",
+        url: "/api/product/register",
         method: 'POST',
         body: JSON.stringify(data)
     });
@@ -48,7 +48,7 @@ export function register(data) {
 
 export function products() {
     return request({
-        url: API_BASE_URL + "9005/api/search/products",
+        url: "/api/product/products",
         method: 'GET',
     });
 }
