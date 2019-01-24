@@ -3,6 +3,7 @@ import React from 'react';
 import Login from "../Login/Login";
 import {history} from "./History";
 import Production from "../Production/Production";
+import BaristaScreen from "../baristaScreen/BaristaScreen"
 import Home from "../home/Home";
 
 export default () => (
@@ -11,6 +12,7 @@ export default () => (
             <Route path={"/"} exact component={Login}/>
             <PrivateRoute path={"/home"} exact component={Home}/>
             <PrivateRoute path={"/production"} exact component={Production}/>
+            <PrivateRoute path={"/barista"} exact component={BaristaScreen}/>
         </div>
     </Router>
 );

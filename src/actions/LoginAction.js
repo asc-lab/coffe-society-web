@@ -16,7 +16,7 @@ export const login = (data) => dispatch => {
             type: userConstants.LOGIN_SUCCESS,
             payload: userData
         });
-        history.push('/home');
+        history.push('/barista');
     }).catch(error => {
         console.log(error);
     });

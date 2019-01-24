@@ -6,6 +6,7 @@
     "@material-ui/core": "3.8.3",
     "@material-ui/icons": "^3.0.2",
     "@material-ui/utils": "latest",
+    "@material-ui/styles": "latest",
     "classnames": "latest",
     "config": "^3.0.1",
     "history": "latest",
