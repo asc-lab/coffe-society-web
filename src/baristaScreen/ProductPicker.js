@@ -5,8 +5,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import {definitions} from "../common/ApiUtils";
 import Icon from '@material-ui/core/Icon'
+import * as PropTypes from "prop-types";
 
 const styles = theme => ({
     root: {
@@ -20,7 +20,20 @@ const styles = theme => ({
     },
     avatar: {
         marginRight: theme.spacing.unit*2,
+        height: '60px',
+        width: '60px'
     },
+    list: {
+        paddingTop: 0,
+        paddingBottom: 0,
+    },
+    listItem: {
+        paddingTop: theme.spacing.unit/2,
+        paddingBottom: theme.spacing.unit/2
+    },
+    menuItem: {
+        height: '60px'
+    }
 });
 
 class ProductPicker extends Component {
@@ -31,30 +44,11 @@ class ProductPicker extends Component {
         this.state = {
             anchorEl: null,
             selectedIndex: -1,
-            definitions: [],
+            definitions: props.definitions,
+            onChange: props.onChange
         };
 
-        this.getDefinitions = this.getDefinitions.bind(this);
-    }
 
-    getDefinitions() {
-
-        definitions().then(res => {
-            let definitions = [];
-            res.forEach(x => {
-                definitions.push({
-                    value: x.id,
-                    label: x.name
-                })
-            });
-            this.setState({
-                definitions: definitions
-            });
-        });
-    }
-
-    componentWillMount() {
-        this.getDefinitions();
     }
 
     handleClickListItem = event => {
@@ -63,28 +57,45 @@ class ProductPicker extends Component {
 
     handleMenuItemClick = (event, index) => {
         this.setState({selectedIndex: index, anchorEl: null});
+        this.state.onChange(this.state.definitions[index].value)
     };
 
     handleClose = () => {
         this.setState({anchorEl: null});
     };
 
+    // componentWillReceiveProps(nextProps, nextContext) {
+    //     this.setState({
+    //         anchorEl: this.state.anchorEl,
+    //         selectedIndex: this.state.selectedIndex,
+    //         definitions: nextProps.definitions,
+    //         onChange: nextProps.onChange
+    //     });
+    // }
+
     render() {
         const {classes} = this.props;
         const {anchorEl, definitions} = this.state;
 
+        const label = definitions[this.state.selectedIndex] ? definitions[this.state.selectedIndex].label : "none";
+
         return (
             <div>
-                <List component="nav">
+                <List component="nav" className={classes.list}>
                     <ListItem
                         button
                         aria-haspopup="true"
                         aria-controls="lock-menu"
                         aria-label="When device is locked"
                         onClick={this.handleClickListItem}
+                        className={classes.listItem}
                     >
                         <ListItemAvatar>
-                            <Avatar alt="Remy Sharp" src={"/files/" + (definitions[this.state.selectedIndex] ? definitions[this.state.selectedIndex].label : "none")+".svg"} className={classes.avatar} />
+                            <Avatar
+                                alt={label}
+                                src={"/files/" + label +".svg"}
+                                className={classes.avatar}
+                            />
                         </ListItemAvatar>
                         <ListItemText
                             primary={definitions[this.state.selectedIndex] ? definitions[this.state.selectedIndex].label : ""}
@@ -105,8 +116,9 @@ class ProductPicker extends Component {
                             key={option.value}
                             selected={index === this.state.selectedIndex}
                             onClick={event => this.handleMenuItemClick(event, index)}
+                            className={classes.menuItem}
                         >
-                            <Avatar alt="Remy Sharp" src={"/files/" + option.label +".svg"} className={classes.avatar} />
+                            <Avatar alt={option.label} src={"/files/" + option.label +".svg"} className={classes.avatar} />
                             {option.label}
                         </MenuItem>
                     ))}
@@ -115,5 +127,11 @@ class ProductPicker extends Component {
         );
     }
 }
+
+ProductPicker.propTypes = {
+    classes: PropTypes.object.isRequired,
+    definitions: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired
+};
 
 export default withStyles(styles)(ProductPicker);

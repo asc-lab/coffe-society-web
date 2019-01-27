@@ -5,8 +5,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import {users} from "../common/ApiUtils";
 import Icon from '@material-ui/core/Icon'
+import * as PropTypes from "prop-types";
 
 const styles = theme => ({
     root: {
@@ -19,7 +19,20 @@ const styles = theme => ({
         margin: `${theme.spacing.unit}px 0`,
     },
     avatar: {
-        marginRight: theme.spacing.unit,
+        marginRight: theme.spacing.unit*2,
+        height: '60px',
+        width: '60px'
+    },
+    list: {
+        paddingTop: 0,
+        paddingBottom: 0,
+    },
+    listItem: {
+        paddingTop: theme.spacing.unit/2,
+        paddingBottom: theme.spacing.unit/2
+    },
+    menuItem: {
+        height: '60px'
     }
 });
 
@@ -31,29 +44,9 @@ class MemberPicker extends Component {
         this.state = {
             anchorEl: null,
             selectedIndex: -1,
-            members: [],
+            members: props.members,
         };
 
-        this.getUsers = this.getUsers.bind(this);
-    }
-
-    getUsers() {
-        users().then(res => {
-            let users = [];
-            res.forEach(x => {
-                users.push({
-                    value: x.id,
-                    label: x.username
-                })
-            });
-            this.setState({
-                members: users
-            });
-        });
-    }
-
-    componentWillMount() {
-        this.getUsers();
     }
 
     handleClickListItem = event => {
@@ -74,13 +67,14 @@ class MemberPicker extends Component {
 
         return (
             <div>
-                <List component="nav">
+                <List component="nav" className={classes.list}>
                     <ListItem
                         button
                         aria-haspopup="true"
                         aria-controls="lock-menu"
                         aria-label="When device is locked"
                         onClick={this.handleClickListItem}
+                        className={classes.listItem}
                     >
                         <ListItemAvatar>
                             <Avatar alt="Member" src={"/files/member.svg"} className={classes.avatar} />
@@ -104,6 +98,7 @@ class MemberPicker extends Component {
                             key={option.value}
                             selected={index === this.state.selectedIndex}
                             onClick={event => this.handleMenuItemClick(event, index)}
+                            className={classes.menuItem}
                         >
                             <Avatar alt="Member" src={"/files/member.svg"} className={classes.avatar} />
                             <Typography>{option.label} </Typography>
@@ -114,5 +109,10 @@ class MemberPicker extends Component {
         );
     }
 }
+
+MemberPicker.propTypes = {
+    classes: PropTypes.object.isRequired,
+    members: PropTypes.array.isRequired,
+};
 
 export default withStyles(styles)(MemberPicker);
